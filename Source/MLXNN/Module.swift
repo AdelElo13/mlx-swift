@@ -399,7 +399,8 @@ open class Module {
     /// for example an `MLXArray` is set on a `Module`.
     @discardableResult
     public func update(parameters: ModuleParameters) -> Self {
-        try! update(parameters: parameters, verify: .none)
+        do { return try update(parameters: parameters, verify: .none) }
+        catch { preconditionFailure("[Module] update(parameters:) with verify:.none should never throw: \(error)") }
     }
 
     /// Replace the parameters of this `Module` with the provided parameters.
@@ -588,7 +589,8 @@ open class Module {
     /// for example an `Module` is set on a `MLXArray`.
     @discardableResult
     public func update(modules: ModuleChildren) -> Self {
-        try! update(modules: modules, verify: .none)
+        do { return try update(modules: modules, verify: .none) }
+        catch { preconditionFailure("[Module] update(modules:) with verify:.none should never throw: \(error)") }
     }
 
     /// Replace the child modules of this `Module` with the provided replacements.
@@ -862,9 +864,10 @@ open class Module {
         return visit(key:module:)
     }
 
-    /// Non-throwing variant of ``freeze(recursive:keys:strict:)`` (`strict: false)`.
+    /// Non-throwing variant of ``freeze(recursive:keys:strict:)`` (`strict: false`).
     public func freeze(recursive: Bool = true, keys: [String]? = nil) {
-        try! freeze(recursive: recursive, keys: keys, strict: false)
+        do { try freeze(recursive: recursive, keys: keys, strict: false) }
+        catch { preconditionFailure("[Module] freeze with strict:false should never throw: \(error)") }
     }
 
     /// Freeze the `Module`'s parameters or subset.
@@ -904,9 +907,10 @@ open class Module {
         }
     }
 
-    /// Non-throwing variant of ``unfreeze(recursive:keys:strict:)`` (`strict: false)`.
+    /// Non-throwing variant of ``unfreeze(recursive:keys:strict:)`` (`strict: false`).
     public func unfreeze(recursive: Bool = true, keys: [String]? = nil) {
-        try! unfreeze(recursive: recursive, keys: keys, strict: false)
+        do { try unfreeze(recursive: recursive, keys: keys, strict: false) }
+        catch { preconditionFailure("[Module] unfreeze with strict:false should never throw: \(error)") }
     }
 
     /// Unfreeze the `Module`'s parameters or subset.
